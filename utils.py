@@ -1,12 +1,5 @@
 datasets = [
-    "https://ignaciorlando.github.io/datasets/data-science/ObesityDataSet_raw_and_data_sinthetic.txt",
-    "https://ignaciorlando.github.io/datasets/data-science/ObesityDataSet_raw_and_data_sinthetic.csv",
-    # "https://ignaciorlando.github.io/datasets/data-science/netflix_titles.txt",
-    # "https://ignaciorlando.github.io/datasets/data-science/netflix_titles.csv",
-
-    # # tp 4
-    # "https://ignaciorlando.github.io/datasets/data-science/movies.csv",
-    # "https://ignaciorlando.github.io/datasets/data-science/food.zip",
+    "https://media.githubusercontent.com/media/StackExchange/Survey/6ae2209cd35a55e92739ba82f7887fb86807a069/packages/archive/2025/results.csv"
 ]
 
 def extract_if_zip(file_name, file_path):
