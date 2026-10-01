@@ -7,6 +7,7 @@ matplotlib
 sweetviz
 
 ydata-profiling
+data_profiling
 ipywidgets # dependencia de ydata-profiling
 
 #pandas_profiling # aparentemente no funciona mas
