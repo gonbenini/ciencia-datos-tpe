@@ -1,0 +1,18 @@
+# Datasets y descripciones
+ObesityDataSet_raw_and_data_sinthetic.csv
+ObesityDataSet_raw_and_data_sinthetic.txt
+netflix_titles.csv
+food.zip
+netflix_titles.txt
+movies.csv
+codebook_food.docx
+food_coded.csv
+
+#reportes generados para los tps
+reporte*
+
+# Practicos, caches, notebooks vacias o de pruebas y metadata de jupyer
+*.pdf
+__pycache__
+Untitled*.ipynb
+.ipynb_checkpoints/

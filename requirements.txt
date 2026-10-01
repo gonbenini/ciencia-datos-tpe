@@ -1,0 +1,15 @@
+# pip install -r requirements.txt
+pandas
+icecream
+scipy
+numpy
+matplotlib
+sweetviz
+
+ydata-profiling
+ipywidgets # dependencia de ydata-profiling
+
+#pandas_profiling # aparentemente no funciona mas
+
+# experimental para decargar reports a md
+tabulate
