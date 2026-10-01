@@ -1,14 +1,14 @@
-# Datasets y descripciones
-results.csv
-netflix_titles.csv
-food.zip
-netflix_titles.txt
-movies.csv
-codebook_food.docx
-food_coded.csv
+# Entornos
+venv*/
 
-#reportes generados para los tps
-reporte*
+# Datasets, descripciones, etc
+*.csv
+*.txt
+*.html
+*.zip
+
+# Incluimos explicitamente el requirements
+!requirements.txt
 
 # Practicos, caches, notebooks vacias o de pruebas y metadata de jupyer
 *.pdf
