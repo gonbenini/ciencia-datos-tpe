@@ -46,7 +46,12 @@ descargar()
 
 #---------------------Graficos----------------------
 import matplotlib.pyplot as plt
+import math
 
+'''
+funcion especifica que se usa para, dado un conjunto de columnas, calcular el promedio de promedios de valores nulos
+y expresarlo en un grafico de torta
+'''
 def graficar_nulos(df, cols, labels, title='Distribución de valores nulos', colors=('#e76f51', '#2a9d8f')):
     datos = df[cols]
     valores = [
@@ -72,42 +77,3 @@ def graficar_nulos(df, cols, labels, title='Distribución de valores nulos', col
     )
     plt.title(title)
     plt.show()
-
-
-import math
-def graficar_histogramas(
-    df,
-    columnas,
-    bins=15,
-    ncols=3,
-    figsize_por_grafico=(12, 10),
-    n_extras=0,
-):
-    datos = df[columnas].select_dtypes(include='number')
-
-    n = len(datos.columns)
-    total = n + n_extras
-
-    if total == 0:
-        print("No hay gráficos para mostrar.")
-        return None
-
-    nrows = math.ceil(total / ncols)
-
-    ancho, alto = figsize_por_grafico
-    fig, axes = plt.subplots(
-        nrows,
-        ncols,
-        figsize=(ancho * ncols, alto * nrows),
-        squeeze=False
-    )
-
-    for ax, columna in zip(axes.flat, datos.columns):
-        ax.hist(datos[columna].dropna(), bins=bins, edgecolor='black')
-        ax.set_title(columna)
-
-    # Ocultamos solamente los espacios que no se van a utilizar
-    for ax in axes.flat[total:]:
-        ax.set_visible(False)
-
-    return fig, axes
