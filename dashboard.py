@@ -13,13 +13,23 @@ class Chart:
         if self.title:
             ax.set_title(self.title)
 
-#contiene los graficos posibles por defecto.
+#contiene los graficos posibles por defecto
 class Graph:
     def __init__(self, dashboard):
         self.dashboard = dashboard
-    def bar(self, df, col, min=500, cut=None, rot=0):
+    def bar(self, df, col, min=500, cut=None, rot=0, multiple_r=False, max_cat=5):
         def draw(ax):
-            frecuencias = df[col].value_counts()
+            if not multiple_r:
+                frecuencias = df[col].value_counts()
+            else:
+                frecuencias = (
+                    df[col]
+                    .dropna()
+                    .str.split(';')
+                    .explode()
+                    .str.strip()
+                    .value_counts()
+                ) 
             if cut and isinstance(cut, int):
                 frecuencias.index = frecuencias.index.str[:cut]
             elif cut and isinstance(cut, dict):
@@ -31,6 +41,10 @@ class Graph:
 
             agrupadas = frecuencias[frecuencias >= min].copy()
             otros = frecuencias[frecuencias < min].sum()
+
+            top = agrupadas.iloc[:max_cat]
+            otros += agrupadas.iloc[max_cat:].sum()
+            agrupadas = top
 
             if otros > 0:
                 agrupadas["Otros"] = otros
