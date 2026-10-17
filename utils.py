@@ -1,3 +1,5 @@
+
+
 datasets = [
     "https://media.githubusercontent.com/media/StackExchange/Survey/6ae2209cd35a55e92739ba82f7887fb86807a069/packages/archive/2025/results.csv",
     "https://media.githubusercontent.com/media/StackExchange/Survey/refs/heads/main/packages/archive/2025/schema.csv"
@@ -76,4 +78,66 @@ def graficar_nulos(df, cols, labels, title='Distribución de valores nulos', col
         ncol=len(labels)
     )
     plt.title(title)
+    plt.show()
+
+
+import numpy as  np
+'''funcion especifica que se usa para, dado un dataset y una columna, calcular los limites inferiores y superiores para outliers'''
+def get_rangos(df, col):
+    q1 = np.nanpercentile(df[col], 25)
+    q3 = np.nanpercentile(df[col], 75)
+    iqr = q3 - q1
+
+    lim_inf = q1 - 1.5 * iqr
+    lim_sup = q3 + 1.5 * iqr
+
+    out = df[(df[col] > lim_sup) | (df[col] < lim_inf)][col]
+    norm = df[(df[col] <= lim_sup) & (df[col] >= lim_inf)]
+
+    return out, norm
+
+
+'''funcion especifica que se usa para, dado un dataset y una columna, graficar el porcentaje de nulos y outliers
+en base a un grafico de torta'''
+def graficar_nulos_outliers(df, col):
+    out, norm = get_rangos(df, col)
+
+    fig, axes = plt.subplots(1, 2, figsize=(10, 6))
+    #Grafico de proporcion de outliers
+    frecuencias = [out.value_counts().sum(), norm[col].value_counts().sum()]
+    labels = [f'outliers: {frecuencias[0]}', f'normales: {frecuencias[1]}']
+    result1 = axes[0].pie(
+        frecuencias,
+        autopct='%1.2f%%',
+        startangle=90,
+        colors=["#474f4a", '#1e984f']
+    )
+    axes[0].legend(
+        handles=result1[0],
+        labels=labels,
+        loc='lower center',
+        bbox_to_anchor=(0.5, 0.915),
+        ncol=len(labels)
+    )
+    axes[0].set_title(f'Distribucion de outliers para {col}')
+
+    #Grafico de proporcion de nulos
+    validos = frecuencias[0]+frecuencias[1]
+    nulos = df[col].isna().sum()
+    labels = [f'nulos: {nulos}', f'validos: {validos}']
+    result2 = axes[1].pie(
+        [nulos, validos],
+        autopct='%1.2f%%',
+        startangle=90,
+        colors=["#474f4a", '#1e984f']
+    )
+    axes[1].legend(
+        handles=result2[0],
+        labels=labels,
+        loc='lower center',
+        bbox_to_anchor=(0.5, 0.915),
+        ncol=len(labels)
+    )
+    axes[1].set_title(f'Distribucion de nulos para {col}')
+
     plt.show()
