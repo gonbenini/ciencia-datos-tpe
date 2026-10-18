@@ -54,31 +54,33 @@ import math
 funcion especifica que se usa para, dado un conjunto de columnas, calcular el promedio de promedios de valores nulos
 y expresarlo en un grafico de torta
 '''
-def graficar_nulos(df, cols, labels, title='Distribución de valores nulos', colors=('#e76f51', '#2a9d8f')):
-    datos = df[cols]
-    valores = [
-        #Promedio de promedios de cada columna.
-        datos.isna().mean().mean(),
-        datos.notna().mean().mean()
-    ]
+def graficar_nulos(df, frecuencias, labels, title='Distribución de valores nulos', colors=('#e76f51', '#2a9d8f'), axe=None):
 
-    resultado = plt.pie(
-        valores,
+    if axe:
+        tool = axe
+    else:
+        tool = plt
+        
+    resultado = tool.pie(
+        frecuencias,
         colors=colors,
         autopct='%1.1f%%',
         startangle=90
     )
     wangle=resultado[0]
 
-    plt.legend(
+    tool.legend(
         handles=wangle,
         labels=labels,
         loc='lower center',
         bbox_to_anchor=(0.5, 0.9),
         ncol=len(labels)
     )
-    plt.title(title)
-    plt.show()
+    if not axe:
+        plt.title(title)
+        plt.show()
+    else:
+        tool.set_title(title)
 
 
 import numpy as  np
@@ -100,44 +102,19 @@ def get_rangos(df, col):
 '''funcion especifica que se usa para, dado un dataset y una columna, graficar el porcentaje de nulos y outliers
 en base a un grafico de torta'''
 def graficar_nulos_outliers(df, col):
+    
     out, norm = get_rangos(df, col)
-
     fig, axes = plt.subplots(1, 2, figsize=(10, 6))
+
     #Grafico de proporcion de outliers
     frecuencias = [out.value_counts().sum(), norm[col].value_counts().sum()]
     labels = [f'outliers: {frecuencias[0]}', f'normales: {frecuencias[1]}']
-    result1 = axes[0].pie(
-        frecuencias,
-        autopct='%1.2f%%',
-        startangle=90,
-        colors=["#474f4a", '#1e984f']
-    )
-    axes[0].legend(
-        handles=result1[0],
-        labels=labels,
-        loc='lower center',
-        bbox_to_anchor=(0.5, 0.915),
-        ncol=len(labels)
-    )
-    axes[0].set_title(f'Distribucion de outliers para {col}')
+    graficar_nulos(df, frecuencias, labels, f'Distribucion de outliers para {col}', ["#474f4a", '#1e984f'], axes[0])
 
     #Grafico de proporcion de nulos
     validos = frecuencias[0]+frecuencias[1]
     nulos = df[col].isna().sum()
     labels = [f'nulos: {nulos}', f'validos: {validos}']
-    result2 = axes[1].pie(
-        [nulos, validos],
-        autopct='%1.2f%%',
-        startangle=90,
-        colors=["#474f4a", '#1e984f']
-    )
-    axes[1].legend(
-        handles=result2[0],
-        labels=labels,
-        loc='lower center',
-        bbox_to_anchor=(0.5, 0.915),
-        ncol=len(labels)
-    )
-    axes[1].set_title(f'Distribucion de nulos para {col}')
+    graficar_nulos(df, [nulos, validos], labels, f'Distribucion de outliers para {col}', ["#474f4a", '#1e984f'], axes[1])
 
     plt.show()
