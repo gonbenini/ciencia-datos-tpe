@@ -54,7 +54,7 @@ import math
 funcion especifica que se usa para, dado un conjunto de columnas, calcular el promedio de promedios de valores nulos
 y expresarlo en un grafico de torta
 '''
-def graficar_nulos(df, frecuencias, labels, title='Distribución de valores nulos', colors=('#e76f51', '#2a9d8f'), axe=None):
+def pie_chart(df, frecuencias, labels, title='Distribución de valores nulos', colors=('#e76f51', '#2a9d8f'), axe=None):
 
     if axe:
         tool = axe
@@ -85,7 +85,7 @@ def graficar_nulos(df, frecuencias, labels, title='Distribución de valores nulo
 
 import numpy as  np
 '''funcion especifica que se usa para, dado un dataset y una columna, calcular los limites inferiores y superiores para outliers'''
-def get_rangos(df, col):
+def get_ranges(df, col):
     q1 = np.nanpercentile(df[col], 25)
     q3 = np.nanpercentile(df[col], 75)
     iqr = q3 - q1
@@ -101,20 +101,20 @@ def get_rangos(df, col):
 
 '''funcion especifica que se usa para, dado un dataset y una columna, graficar el porcentaje de nulos y outliers
 en base a un grafico de torta'''
-def graficar_nulos_outliers(df, col):
-    
-    out, norm = get_rangos(df, col)
+def graph_nulls_outliers(df, col):
+
+    out, norm = get_ranges(df, col)
     fig, axes = plt.subplots(1, 2, figsize=(10, 6))
 
     #Grafico de proporcion de outliers
     frecuencias = [out.value_counts().sum(), norm[col].value_counts().sum()]
     labels = [f'outliers: {frecuencias[0]}', f'normales: {frecuencias[1]}']
-    graficar_nulos(df, frecuencias, labels, f'Distribucion de outliers para {col}', ["#474f4a", '#1e984f'], axes[0])
+    pie_chart(df, frecuencias, labels, f'Distribucion de outliers para {col}', ["#474f4a", '#1e984f'], axes[0])
 
     #Grafico de proporcion de nulos
     validos = frecuencias[0]+frecuencias[1]
     nulos = df[col].isna().sum()
     labels = [f'nulos: {nulos}', f'validos: {validos}']
-    graficar_nulos(df, [nulos, validos], labels, f'Distribucion de outliers para {col}', ["#474f4a", '#1e984f'], axes[1])
+    pie_chart(df, [nulos, validos], labels, f'Distribucion de outliers para {col}', ["#474f4a", '#1e984f'], axes[1])
 
     plt.show()
