@@ -6,11 +6,5 @@ numpy
 matplotlib
 sweetviz
 
-ydata-profiling
-data_profiling
-ipywidgets # dependencia de ydata-profiling
-
-#pandas_profiling # aparentemente no funciona mas
-
 # experimental para decargar reports a md
 tabulate
