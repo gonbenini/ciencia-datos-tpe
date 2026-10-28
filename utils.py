@@ -115,6 +115,23 @@ def graph_nulls_outliers(df, col):
     validos = frecuencias[0]+frecuencias[1]
     nulos = df[col].isna().sum()
     labels = [f'nulos: {nulos}', f'validos: {validos}']
-    pie_chart(df, [nulos, validos], labels, f'Distribucion de outliers para {col}', ["#474f4a", '#1e984f'], axes[1])
+    pie_chart(df, [nulos, validos], labels, f'Distribucion de nulos para {col}', ["#474f4a", '#1e984f'], axes[1])
 
+    plt.show()
+
+from scipy import stats
+def scatter(var_1, var_2, df):
+    #creamos el scatter plot
+    df_copy = df.dropna(subset=[var_1, var_2])
+    plt.figure(figsize=(6, 6))
+    plt.scatter(df_copy[var_1], df_copy[var_2])
+    plt.xlabel(var_1)
+    plt.ylabel(var_2)
+    plt.title("Relación entre {} y {}".format(var_1, var_2))
+
+    coeficiente_correlacion, _ = stats.pearsonr(df_copy[var_1], df_copy[var_2])
+    plt.legend([f"Correlación: {coeficiente_correlacion:.4f}"], loc="upper left")
+
+    # Mostrar el gráfico
+    plt.grid(True)
     plt.show()
