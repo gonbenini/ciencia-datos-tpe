@@ -124,7 +124,7 @@ def scatter(var_1, var_2, df):
     #creamos el scatter plot
     df_copy = df.dropna(subset=[var_1, var_2])
     plt.figure(figsize=(6, 6))
-    plt.scatter(df_copy[var_1], df_copy[var_2])
+    plt.scatter(df_copy[var_1], df_copy[var_2], alpha=0.5)
     plt.xlabel(var_1)
     plt.ylabel(var_2)
     plt.title("Relación entre {} y {}".format(var_1, var_2))
@@ -134,4 +134,18 @@ def scatter(var_1, var_2, df):
 
     # Mostrar el gráfico
     plt.grid(True)
+    plt.show()
+
+def box_plot_comparative(df, col):
+    _, norm = get_ranges(df, col)
+    _, ax = plt.subplots(1, 2, figsize=(6, 4))
+    norm[col].plot(kind='box', ax=ax[0])
+    ax[0].set_xlim(0.7, 1.3)
+    ax[0].set_title('Normalizado')
+
+    df[col].plot(kind='box', ax=ax[1])
+    ax[1].set_xlim(0.7, 1.3)
+    ax[1].set_title('Original')
+
+    plt.tight_layout()
     plt.show()
