@@ -120,11 +120,11 @@ def graph_nulls_outliers(df, col):
     plt.show()
 
 from scipy import stats
-def scatter(var_1, var_2, df):
+def scatter(var_1, var_2, df, alpha=0.5):
     #creamos el scatter plot
     df_copy = df.dropna(subset=[var_1, var_2])
     plt.figure(figsize=(6, 6))
-    plt.scatter(df_copy[var_1], df_copy[var_2], alpha=0.5)
+    plt.scatter(df_copy[var_1], df_copy[var_2], alpha=alpha)
     plt.xlabel(var_1)
     plt.ylabel(var_2)
     plt.title("Relación entre {} y {}".format(var_1, var_2))
