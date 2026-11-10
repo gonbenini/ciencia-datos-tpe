@@ -14,11 +14,12 @@ Se recomienda usar un entorno virtual para no mezclar las librerías con otros p
 
 ```bash
 # Crear el entorno virtual
-python -m venv venv_tpe
+python3 -m venv venv_tpe            # Linux / macOS
+python -m venv venv_tpe             # Windows 
 
 # Activarlo
-source venv_tpe/bin/activate      # Linux / macOS
-venv\Scripts\activate             # Windows
+source venv_tpe/bin/activate        # Linux / macOS
+venv_tpe\Scripts\activate           # Windows
 
 # Instalar las dependencias
 pip install -r requirements.txt
@@ -52,7 +53,7 @@ Al hacer `import utils` se descargan automáticamente `results.csv` (respuestas)
 - `scatter`: Dispersión entre dos variables, con su correlación de Pearson.
 - `box_plot_comparative`: Boxplot de una columna sin outliers vs. con los datos originales.
 
-**Ejemplo** (extraído de [`entregable.ipynb`](https://github.com/gonbenini/ciencia-datos-tpe/blob/d7c73d118fed50ebb4b9893f6b46db7a132d32ef/entregable.ipynb))
+**Ejemplo** (basado en [`entregable.ipynb`](https://github.com/gonbenini/ciencia-datos-tpe/blob/3be3f18163b0a7e3dba0a19e40ed1da3ab4c010a/entregable.ipynb))
 ```python
 import pandas as pd
 import utils
@@ -68,6 +69,7 @@ for i in cols:
 
 utils.scatter('WorkExp', 'YearsCode', df, alpha=1)
 ```
+> _Este fragmento no aparece **exactamente así** en el notebook.<br>Es una recopilación de varias celdas, con las listas de columnas acortadas._
 
 ## `dashboard.py`
 
@@ -78,7 +80,7 @@ Se van agregando gráficos al dashboard y `show()` los dibuja todos juntos en un
 - `dash.add.multiple_hist(df, columnas, bins)`: Un histograma por cada columna numérica.
 - `Chart(draw, title)` y `dash.addChart(chart)`: Permiten agregar un gráfico propio, pasando una función que dibuja sobre un eje de matplotlib.
 
-**Ejemplo** (extraído de [`entregable.ipynb`](https://github.com/gonbenini/ciencia-datos-tpe/blob/d7c73d118fed50ebb4b9893f6b46db7a132d32ef/entregable.ipynb))
+**Ejemplo** (basado en [`entregable.ipynb`](https://github.com/gonbenini/ciencia-datos-tpe/blob/3be3f18163b0a7e3dba0a19e40ed1da3ab4c010a/entregable.ipynb))
 ```python
 import dashboard as ds
 
@@ -88,3 +90,4 @@ dash1.add.bar(df, "Age", min=2000, cut=' ')
 dash1.add.multiple_hist(df, ['JobSat', 'ToolCountWork', 'ConvertedCompYearly'], bins=10)
 dash1.show()
 ```
+> _Este fragmento no aparece **exactamente así** en el notebook.<br>Es una recopilación de varias celdas, con las listas de columnas acortadas._
