@@ -10,9 +10,21 @@ Notebook de análisis de los resultados de la encuesta, junto con dos módulos d
 
 ## Dependencias
 
+Se recomienda usar un entorno virtual para no mezclar las librerías con otros proyectos.
+
 ```bash
+# Crear el entorno virtual
+python -m venv venv_tpe
+
+# Activarlo
+source venv_tpe/bin/activate      # Linux / macOS
+venv\Scripts\activate             # Windows
+
+# Instalar las dependencias
 pip install -r requirements.txt
 ```
+
+Para desactivar el entorno al terminar usar: `deactivate`.
 
 ## `entregable.ipynb`
 
@@ -40,7 +52,7 @@ Al hacer `import utils` se descargan automáticamente `results.csv` (respuestas)
 - `scatter`: Dispersión entre dos variables, con su correlación de Pearson.
 - `box_plot_comparative`: Boxplot de una columna sin outliers vs. con los datos originales.
 
-**Ejemplo** (extraído de [`entregable.ipynb`](https://github.com/<usuario>/<repo>/blob/<commit-sha>/entregable.ipynb))
+**Ejemplo** (extraído de [`entregable.ipynb`](https://github.com/gonbenini/ciencia-datos-tpe/blob/d7c73d118fed50ebb4b9893f6b46db7a132d32ef/entregable.ipynb))
 ```python
 import pandas as pd
 import utils
@@ -66,7 +78,7 @@ Se van agregando gráficos al dashboard y `show()` los dibuja todos juntos en un
 - `dash.add.multiple_hist(df, columnas, bins)`: Un histograma por cada columna numérica.
 - `Chart(draw, title)` y `dash.addChart(chart)`: Permiten agregar un gráfico propio, pasando una función que dibuja sobre un eje de matplotlib.
 
-**Ejemplo** (extraído de [`entregable.ipynb`](https://github.com/<usuario>/<repo>/blob/<commit-sha>/entregable.ipynb))
+**Ejemplo** (extraído de [`entregable.ipynb`](https://github.com/gonbenini/ciencia-datos-tpe/blob/d7c73d118fed50ebb4b9893f6b46db7a132d32ef/entregable.ipynb))
 ```python
 import dashboard as ds
 
