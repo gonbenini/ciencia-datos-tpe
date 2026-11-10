@@ -18,10 +18,10 @@ pip install -r requirements.txt
 
 Importa `utils` y `dashboard` y recorre el análisis en este orden:
 
-1. **Análisis exploratorio:** distribución de las variables con dashboards y matriz de correlación.
-2. **Limpieza de datos:** descarte de variables (respuesta libre, redundantes o con muchos nulos), duplicados y outliers.
+1. **Análisis exploratorio:** Distribución de las variables con dashboards y matriz de correlación.
+2. **Limpieza de datos:** Descarte de variables (respuesta libre, redundantes o con muchos nulos), duplicados y outliers.
 3. **Reducción de dimensionalidad:** PCA, t-SNE y UMAP.
-4. **Validación de hipótesis:** pruebas univariadas y bivariadas.
+4. **Validación de hipótesis:** Pruebas univariadas, bivariadas y multivariadas.
 
 Debe ejecutarse desde la carpeta donde estén (o se descarguen) `results.csv` y `schema.csv`.
 
@@ -30,42 +30,49 @@ Debe ejecutarse desde la carpeta donde estén (o se descarguen) `results.csv` y 
 Al hacer `import utils` se descargan automáticamente `results.csv` (respuestas) y `schema.csv` (descripción de las columnas), salvo que ya existan. La primera vez necesita conexión a internet.
 
 **Manejo de archivos**
-- `descargar(urls, force)`: descarga los archivos y descomprime los `.zip`.
-- `mostrar_archivo(archivo, lines)`: imprime un archivo de texto, o solo sus primeras líneas si es muy grande.
+- `descargar(urls, force)`: Descarga los archivos y descomprime los `.zip`.
+- `mostrar_archivo(archivo, lines)`: Imprime un archivo de texto, o solo sus primeras líneas si es muy grande.
 
 **Gráficos de exploración**
-- `pie_chart`: torta con porcentajes y leyenda.
-- `get_ranges`: separa outliers y valores normales de una columna usando el rango intercuartílico (IQR).
-- `graph_nulls_outliers`: dos tortas con la proporción de outliers y de nulos de una columna.
-- `scatter`: dispersión entre dos variables, con su correlación de Pearson.
-- `box_plot_comparative`: boxplot de una columna sin outliers vs. con los datos originales.
+- `pie_chart`: Torta con porcentajes y leyenda.
+- `get_ranges`: Separa outliers y valores normales de una columna usando el rango intercuartílico (IQR).
+- `graph_nulls_outliers`: Dos tortas con la proporción de outliers y de nulos de una columna.
+- `scatter`: Dispersión entre dos variables, con su correlación de Pearson.
+- `box_plot_comparative`: Boxplot de una columna sin outliers vs. con los datos originales.
 
-**Ejemplo**
+**Ejemplo** (extraído de [`entregable.ipynb`](https://github.com/<usuario>/<repo>/blob/<commit-sha>/entregable.ipynb))
 ```python
 import pandas as pd
 import utils
 
-df = pd.read_csv("results.csv")
-utils.graph_nulls_outliers(df, "ConvertedCompYearly")
-utils.scatter("WorkExp", "YearsCode", df)
+df = pd.read_csv("results.csv", low_memory=False)
+
+data = df.copy()
+cols = ['ToolCountWork', 'ConvertedCompYearly']
+for i in cols:
+    utils.box_plot_comparative(data, i)
+    utils.graph_nulls_outliers(data, i)
+    out, _ = utils.get_ranges(data, i)
+
+utils.scatter('WorkExp', 'YearsCode', df, alpha=1)
 ```
 
 ## `dashboard.py`
 
 Se van agregando gráficos al dashboard y `show()` los dibuja todos juntos en una grilla.
 
-- `Dashboard(columns, figsize)`: guarda los gráficos y los muestra.
-- `dash.add.bar(df, col, ...)`: barras con la frecuencia de cada categoría. Agrupa las poco frecuentes en "Otros" (`min`, `max_cat`), permite acortar o renombrar etiquetas (`cut`) y soporta preguntas de respuesta múltiple separadas por `;` (`multiple_r=True`).
-- `dash.add.multiple_hist(df, columnas, bins)`: un histograma por cada columna numérica.
-- `Chart(draw, title)` y `dash.addChart(chart)`: permiten agregar un gráfico propio, pasando una función que dibuja sobre un eje de matplotlib.
+- `Dashboard(columns, figsize)`: Guarda los gráficos y los muestra.
+- `dash.add.bar(df, col, ...)`: Barras con la frecuencia de cada categoría. Agrupa las poco frecuentes en "Otros" (`min`, `max_cat`), permite acortar o renombrar etiquetas (`cut`) y soporta preguntas de respuesta múltiple separadas por `;` (`multiple_r=True`).
+- `dash.add.multiple_hist(df, columnas, bins)`: Un histograma por cada columna numérica.
+- `Chart(draw, title)` y `dash.addChart(chart)`: Permiten agregar un gráfico propio, pasando una función que dibuja sobre un eje de matplotlib.
 
-**Ejemplo**
+**Ejemplo** (extraído de [`entregable.ipynb`](https://github.com/<usuario>/<repo>/blob/<commit-sha>/entregable.ipynb))
 ```python
-from dashboard import Dashboard
+import dashboard as ds
 
-dash = Dashboard(columns=2)
-dash.add.bar(df, "Country", max_cat=6, rot=45)
-dash.add.bar(df, "LanguageHaveWorkedWith", multiple_r=True, rot=45)
-dash.add.multiple_hist(df, ["YearsCode", "WorkExp"])
-dash.show()
+dash1 = ds.Dashboard(columns=4, figsize=(20, 4))
+dash1.add.bar(df, "Country", min=1000, cut=3)
+dash1.add.bar(df, "Age", min=2000, cut=' ')
+dash1.add.multiple_hist(df, ['JobSat', 'ToolCountWork', 'ConvertedCompYearly'], bins=10)
+dash1.show()
 ```
