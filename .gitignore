@@ -14,7 +14,10 @@ results.csv
 !requirements.txt
 
 # Practicos, caches, notebooks vacias o de pruebas y metadata de jupyer
+<<<<<<< HEAD
 
+=======
+>>>>>>> 56d1c70c0e2ec8c5324be4d3f740d742ac92878c
 __pycache__
 Untitled*.ipynb
 .ipynb_checkpoints/
