@@ -2,10 +2,13 @@
 venv*/
 
 # Datasets, descripciones, etc
-*.csv
 *.txt
 *.html
 *.zip
+
+# Los datos se suben comprimidos (results.csv pesa >100 MB, supera el limite de GitHub)
+results.csv
+!results.zip
 
 # Incluimos explicitamente el requirements
 !requirements.txt

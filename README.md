@@ -36,11 +36,29 @@ Importa `utils` y `dashboard` y recorre el análisis en este orden:
 3. **Reducción de dimensionalidad:** PCA, t-SNE y UMAP.
 4. **Validación de hipótesis:** Pruebas univariadas, bivariadas y multivariadas.
 
-Debe ejecutarse desde la carpeta donde estén (o se descarguen) `results.csv` y `schema.csv`.
+## Datos
+
+Los datos están incluidos en el repositorio:
+
+| Archivo       | Contenido                                                                                       |
+|---------------|-------------------------------------------------------------------------------------------------|
+| `results.zip` | Respuestas de la encuesta (`results.csv` comprimido, ya que pesa ~140 MB y GitHub admite hasta 100 MB por archivo). |
+| `schema.csv`  | Descripción de cada columna (metadatos).                                                        |
+
+**No hace falta descomprimir `results.zip`**: el notebook lo lee directamente con `pd.read_csv('results.zip')`, ya que pandas detecta la compresión por la extensión.
+
+## Ejecución
+
+```bash
+source venv_tpe/bin/activate        # Linux / macOS (venv_tpe\Scripts\activate en Windows)
+jupyter notebook entregable.ipynb
+```
+
+Ejecutar el notebook desde la carpeta raíz del repositorio (donde están `results.zip` y `schema.csv`), de arriba hacia abajo (*Kernel → Restart & Run All*).
 
 ## `utils.py`
 
-Al hacer `import utils` se descargan automáticamente `results.csv` (respuestas) y `schema.csv` (descripción de las columnas), salvo que ya existan. La primera vez necesita conexión a internet.
+Al hacer `import utils` se descarga automáticamente `schema.csv` si no existe. `results.csv` solo se descarga si tampoco existe `results.zip`, por lo que con el repositorio completo no hace falta conexión a internet.
 
 **Manejo de archivos**
 - `descargar(urls, force)`: Descarga los archivos y descomprime los `.zip`.
@@ -58,7 +76,7 @@ Al hacer `import utils` se descargan automáticamente `results.csv` (respuestas)
 import pandas as pd
 import utils
 
-df = pd.read_csv("results.csv", low_memory=False)
+df = pd.read_csv("results.zip", low_memory=False)
 
 data = df.copy()
 cols = ['ToolCountWork', 'ConvertedCompYearly']

@@ -22,7 +22,11 @@ def descargar(urls=datasets, force=False):
         
         if os.path.exists(file_path) and not force:
             continue
-            
+
+        # results.csv se versiona comprimido como results.zip (pandas lo lee directo), no hace falta descargarlo
+        if file_name == "results.csv" and os.path.exists("results.zip") and not force:
+            continue
+
         req.urlretrieve(url, file_path)
 
         extract_if_zip(file_name, file_path)
